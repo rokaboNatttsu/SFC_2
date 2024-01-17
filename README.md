@@ -35,9 +35,9 @@ $X^e = \{\lambda_e X_{-1} + (1 - \lambda_e) X^e_{-1}\} \frac{X_{-1}}{X_{-2}}$ �
 $\sum_i \lambda_i = 1$ になるようなポートフォリオ配分をすべてのファンドと投資家と銀行が持つ。 $\lambda$ は適応的パラメータである
 
 ### 2.1. 定義式
-- $btw(A, B, C)=min(max(A, B),C)$ (ただし $A<C$ )
+- $btw(A, B, C)=min(max(A, B),C)$ (ただし $A < C$ )
 - $YD_w = + w N_w + SS - T_{iw} - T_{ew} - i L_w$
-- $YD_i = \Pi_{ci} + \Pi_{ki} + r_g GB_i - T_{ii} - T_{ei} - i_{bc} B_{ci} - i_{bk} B_{ki}$
+- $YD_i = \Pi_{ci} + \Pi_{ki} + i_g GB_i - T_{ii} - T_{ei} - i_{bc} B_{ci} - i_{bk} B_{ki}$
 - $N_w = N_c + N_k + N_b + N_f + N_g$
 - $w = (w_c N_c + w_k N_k + w_b N_b + w_f N_f + w_g N_g)/N_w$
 - $TC_c^e = pk^e I_c^e + w_c^e N_c^e + T_{vc}^e + T_{ec}^e + T_{cc}^e + i^e L_c - ibc^e B_c$
@@ -53,8 +53,8 @@ $\sum_i \lambda_i = 1$ になるようなポートフォリオ配分をすべて
 - $NL_i =  -p C_{is} - (\zeta_1 + \zeta_2 \frac{C_{is}}{K_i}) K_i + IS$
 - $NL_c = -p_k I_c - p \Delta IN + \Pi_{cc}$
 - $NL_k = -p_k I_k + \Pi_{kk}$
-- $NL_b = w_b N_b - T_{cb} + \Pi_{cb} + \Pi_{kb} + r_g GB_b + i L + i_{bc} B_{cb} + i_{bk} B_{kb}$
-- $NL_f = w_f N_f - T_{cf} + \Pi_{cf} + \Pi_{kf} + r_g GB_f - i L_f + i_{bc} B_{cf} + i_{bk} B_{kf}$
+- $NL_b = w_b N_b - T_{cb} + \Pi_{cb} + \Pi_{kb} + i_g GB_b + i L + i_{bc} B_{cb} + i_{bk} B_{kb}$
+- $NL_f = w_f N_f - T_{cf} + \Pi_{cf} + \Pi_{kf} + i_g GB_f - i L_f + i_{bc} B_{cf} + i_{bk} B_{kf}$
 - $NL_g = -p_k I_{gg} + GS$
 
 ### 2.2. 行動方程式
@@ -77,7 +77,7 @@ ABMのバージョンは、売り注文と買い注文の数量と値段の決�
 - $i = (1 - \iota_3)i_{-1} + \iota_3(\iota_1 + \iota_2 \frac{L}{Y^e})$(部門間モデル限定)
 - $i_{bc} = (1 - \iota_3)i_{bc-1} + \iota_3(\iota_4 + \iota_5 \frac{B_c}{Y^e})$(部門間モデル限定)
 - $i_{bk} = (1 - \iota_3)i_{bk-1} + \iota_3(\iota_4 + \iota_5 \frac{B_k}{Y^e})$(部門間モデル限定)
-- $r_g$:外生的に定める
+- $i_g$:外生的に定める
 - $i = i_{-1}(1 + FN)$ (if $\frac{NL_b}{L} < \iota_6$ )(ABM限定)
 - $i = i_{-1}(1 - FN)$ (else)(ABM限定)
 - $i_{bc} = i_{bc-1}(1 + FN)$ (if $\frac{NL_c}{L_c + \Delta CP_c} < \iota_7$ )(ABM限定)
@@ -165,21 +165,37 @@ ABMのバージョンは、売り注文と買い注文の数量と値段の決�
 - $\Pi_{ki} = \theta_k\{\Pi_k - p_k I_k\}\frac{E_{ki}}{E_k}$
 - $\Pi_{kb} = \theta_k\{\Pi_k - p_k I_k\}\frac{E_{kb}}{E_k}$
 - $\Pi_{kf} = \theta_k\{\Pi_k - p_k I_k\}\frac{E_{kf}}{E_k}$
-- $T_{cb} = max(0, \tau_8(-w_b N_b - T_{cb} + \Pi_{cb} + \Pi_{kb} + r_g GB_b + i L + i_{bc} B_{cb} + i_{bk} B_{kb}))$
-- $T_{cf} = max(0, \tau_8(-w_f N_f - T_{cf} + \Pi_{cf} + \Pi_{kf} + r_g GB_f - i L_f + i_{bc} B_{cf} + i_{bk} B_{kf}))$
+- $T_{cb} = max(0, \tau_8(-w_b N_b - T_{cb} + \Pi_{cb} + \Pi_{kb} + i_g GB_b + i L + i_{bc} B_{cb} + i_{bk} B_{kb}))$
+- $T_{cf} = max(0, \tau_8(-w_f N_f - T_{cf} + \Pi_{cf} + \Pi_{kf} + i_g GB_f - i L_f + i_{bc} B_{cf} + i_{bk} B_{kf}))$
 
 ####  2.2.9. 投資家の所得税
-- $T_{ii} = \tau_5 (\Pi_{ci} + \Pi_{ki} + r_g GB_i + i_{bc} B_{ci} + i_{bk} B_{ki})$
+- $T_{ii} = \tau_5 (\Pi_{ci} + \Pi_{ki} + i_g GB_i + i_{bc} B_{ci} + i_{bk} B_{ki})$
 
 ####  2.2.10. ポートフォリオ配分
 - $L_{w+1} = \kappa_1 YD_w^e$
-- マクロでもミクロでも、適応的な配分目標の更新をしたい。金融資産がだぶついたときの影響とか、金融不況や金融バブルの影響とか、扱おうとすると、たぶんGodelyの行列とベクトルのやつは、静的すぎて、債権の目標保有額と「そもそもそんな金額は存在しません」な問題を別で解決する必要が出てくる。あるいは、債権価格が株式並みに価格変動する合理的な理由が必要になる
+- $E_{ci+1}=E_{c+1} \frac{NW_{i+1}-p K_{i+1}}{NW_{i+1}-p K_{i+1}+NW_{b+1}+NW_{f+1}}$(部門間モデル限定)
+- $E_{cb+1}=E_{c+1} \frac{NW_{b+1}}{NW_{i+1}-p K_{i+1}+NW_{b+1}+NW_{f+1}}$(部門間モデル限定)
+- $E_{cf+1}=E_{c+1} \frac{NW_{f+1}}{NW_{i+1}-p K_{i+1}+NW_{b+1}+NW_{f+1}}$(部門間モデル限定)
+- $E_{ki+1}=E_{k+1} \frac{NW_{i+1}-p K_{i+1}}{NW_{i+1}-p K_{i+1}+NW_{b+1}+NW_{f+1}}$(部門間モデル限定)
+- $E_{kb+1}=E_{k+1} \frac{NW_{b+1}}{NW_{i+1}-p K_{i+1}+NW_{b+1}+NW_{f+1}}$(部門間モデル限定)
+- $E_{kf+1}=E_{k+1} \frac{NW_{f+1}}{NW_{i+1}-p K_{i+1}+NW_{b+1}+NW_{f+1}}$(部門間モデル限定)
+- ミクロで、適応的な配分目標の更新をしたい。金融資産がだぶついたときの影響とか、金融不況や金融バブルの影響とか、軽全体の資産割合の変化とか、扱おうとすると、たぶんGodelyの行列とベクトルのやつは、静的すぎて、債権の目標保有額と存在する金額が一致しない問題を、別で解決する必要が出てくる。あるいは、債権価格が株式並みに価格変動する合理的な理由が必要になる
+- $GB_{bi+1}^D = r_{i1} NW_{i+1}$
+- $E_{ci+1}^D = \frac{r_{i2} NW_{i+1}}{p_{ec}}$
+- $E_{ki+1}^D = \frac{r_{i3} NW_{i+1}}{p_{ek}}$
+- $B_{ci+1}^D = r_{i4} NW_{i+1}$
+- $B_{ki+1}^D = r_{i5} NW_{i+1}$
+- ポートフォリオ目標/現在の保有残高/現在の株式市場価格から、売りオファーと買いオファーの金額と量を決める
+  - 実際にアルゴリズムを書いてみて、良さそうな方法を採用したい。アルゴリズムのためしは、portfolio_simulation.ipynbで行う
+- rの更新。 
+  - $\sum_{m=1}^{M} a^m R_m$ ( $0<a<1$ )で収益率の高いエージェントのrを $r_{+1}=(1 - \lambda_r) r + \lambda_r r^{someone}$ みたいにしてパクる
+  - 預金を含めた資産配分割合を１に維持しつつ、rに摂動を加える
 
 ###   2.3. 恒等式
 ####  2.3.1. TFMの列の恒等式(モデル計算に使うやつ)
 - $WS = -p C_{wf} + w N_w + SS - T_{iw} - T_{ew} - i L_w$
-- $IS = -p C_{if} - T_{ii} - T_{ei} + \Pi_{ci} + \Pi_{ki} + r_g GB_i + i_{bc} B_{ci} + i_{bk} B_{ki}$
-- $GS = -p C_g + p_k I_g - w_g N_g -SS + T_v + T_i + T_e + T_c - r_g GB$
+- $IS = -p C_{if} - T_{ii} - T_{ei} + \Pi_{ci} + \Pi_{ki} + i_g GB_i + i_{bc} B_{ci} + i_{bk} B_{ki}$
+- $GS = -p C_g + p_k I_g - w_g N_g -SS + T_v + T_i + T_e + T_c - i_g GB$
 - $\Delta M_w = NL_w + \Delta L_w$
 
 ####  2.3.2. TFMの行の恒等式(モデル計算に使うやつ)
