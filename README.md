@@ -11,6 +11,7 @@
     - [2.2.7. 租税(法人税と投資家の所得税以外)](#227-租税法人税と投資家の所得税以外)
     - [2.2.8. 利潤と法人税](#228-利潤と法人税)
     - [2.2.9. 投資家の所得税](#229-投資家の所得税)
+    - [2.2.10. ポートフォリオ配分](#2210-ポートフォリオ配分)
   - [2.3. 恒等式](#23-恒等式)
     - [2.3.1. TFMの列の恒等式(モデル計算に使うやつ)](#231-tfmの列の恒等式モデル計算に使うやつ)
     - [2.3.2. TFMの行の恒等式(モデル計算に使うやつ)](#232-tfmの行の恒等式モデル計算に使うやつ)
@@ -34,7 +35,7 @@ $X^e = \{\lambda_e X_{-1} + (1 - \lambda_e) X^e_{-1}\} \frac{X_{-1}}{X_{-2}}$ �
 $\sum_i \lambda_i = 1$ になるようなポートフォリオ配分をすべてのファンドと投資家と銀行が持つ。 $\lambda$ は適応的パラメータである
 
 ### 2.1. 定義式
-- $btw(A, B, C)=min(max(A, B),C)$(ただし$A<C$)
+- $btw(A, B, C)=min(max(A, B),C)$ (ただし $A<C$ )
 - $YD_w = + w N_w + SS - T_{iw} - T_{ew} - i L_w$
 - $YD_i = \Pi_{ci} + \Pi_{ki} + r_g GB_i - T_{ii} - T_{ei} - i_{bc} B_{ci} - i_{bk} B_{ki}$
 - $N_w = N_c + N_k + N_b + N_f + N_g$
@@ -59,7 +60,7 @@ $\sum_i \lambda_i = 1$ になるようなポートフォリオ配分をすべて
 ### 2.2. 行動方程式
 上から計算する
 ####    2.2.1. 価格決定
-- $x \in \{c,k,b,f,g\}$
+- $x \in \{ c,k,b,f,g \}$
 - $w_x = (1 - FN)w_{x-1}$ (if $\sum_{n=1}^{4} UE_{-n} > 2$ and $UE_{-1}=1$)(ABM限定)
 - $w_x = (1 + FN)w_{x-1}$ (else if $\sum_{n=1}^{4} UE_{-n} <= 1$ and $UE_{-1}=0$)(ABM限定)
 - $w_x = w_{x-1}$ (else)(ABM限定)
@@ -73,10 +74,14 @@ $\sum_i \lambda_i = 1$ になるようなポートフォリオ配分をすべて
 
 ####    2.2.2. 金利決定
 ABMのバージョンは、売り注文と買い注文の数量と値段の決め方から作る必要がある。それから、計算順を検討したい
-- $i = $
-- $i_{bc} = $
-- $i_{bk} = $
-- $r_g = $
+- $i = (1 - \iota_3)i_{-1} + \iota_3(\iota_1 + \iota_2 \frac{L}{Y^e})$(部門間モデル限定)
+- $i_{bc} = (1 - \iota_3)i_{bc-1} + \iota_3(\iota_4 + \iota_5 \frac{B_c}{Y^e})$(部門間モデル限定)
+- $i_{bk} = (1 - \iota_3)i_{bk-1} + \iota_3(\iota_4 + \iota_5 \frac{B_k}{Y^e})$(部門間モデル限定)
+- $r_g$:外生的に定める
+- $i = i_{-1}(1 + FN)$ (if $\frac{NL_b}{L} < \iota_6$ )(ABM限定)
+- $i = i_{-1}(1 - FN)$ (else)(ABM限定)
+- $i_{bc} = i_{bc-1}(1 + FN)$ (if $\frac{NL_c}{L_c + \Delta CP_c} < \iota_7$ )(ABM限定)
+- $i_{bk} = i_{bc-1}(1 - FN)$ (else)(ABM限定)
 
 ####    2.2.3. 解雇
 - $N_c-=\delta_c N_c; N_{UE} += 1$（部門間モデル限定）
@@ -149,28 +154,33 @@ ABMのバージョンは、売り注文と買い注文の数量と値段の決�
 
 ####  2.2.8. 利潤と法人税
 - $T_{cc} = max(0, \tau_8(p(C + C_g + \Delta IN) - w_c N_c - T_{vc} - T_{ec} - i L_c - i_{bc} B_c))$
-- $\Pi_c = (p(C + C_g + \Delta IN) - w_c N_c - T_{vc} - T_{ec} - T_{cc} - i L_c - i_{bc} B_c) - T_{cc}$
+- $\Pi_c = p(C + C_g + \Delta IN) - w_c N_c - T_{vc} - T_{ec} - T_{cc} - i L_c - i_{bc} B_c - T_{cc}$
 - $\Pi_{cc} = (1 - \theta_c)\{\Pi_c - p_k I_c - p \Delta IN\}$
 - $\Pi_{ci} = \theta_c\{\Pi_c - p_k I_c - p \Delta IN\}\frac{E_{ci}}{E_c}$
 - $\Pi_{cb} = \theta_c\{\Pi_c - p_k I_c - p \Delta IN\}\frac{E_{cb}}{E_c}$
 - $\Pi_{cf} = \theta_c\{\Pi_c - p_k I_c - p \Delta IN\}\frac{E_{cf}}{E_c}$
 - $T_{ck} = max(0, \tau_8 (p_k(I + I_{gk}) - w_k N_k - T_{vk} - T_{ek} - i L_k - i_{bk} B_k))$
-- $\Pi_k = (p_k(I + I_{gk}) - w_k N_k - T_{vk} - T_{ek} - T_{ck} - i L_k - i_{bk} B_k) - T_{ck}$
+- $\Pi_k = p_k(I + I_{gk}) - w_k N_k - T_{vk} - T_{ek} - T_{ck} - i L_k - i_{bk} B_k - T_{ck}$
 - $\Pi_{kk} = (1 - \theta_k)\{\Pi_k - p_k I_k\}$
 - $\Pi_{ki} = \theta_k\{\Pi_k - p_k I_k\}\frac{E_{ki}}{E_k}$
 - $\Pi_{kb} = \theta_k\{\Pi_k - p_k I_k\}\frac{E_{kb}}{E_k}$
 - $\Pi_{kf} = \theta_k\{\Pi_k - p_k I_k\}\frac{E_{kf}}{E_k}$
-- $Tcb = max(0, \tau_8(-w_b N_b - T_{cb} + \Pi_{cb} + \Pi_{kb} + r_g GB_b + i L + i_{bc} B_{cb} + i_{bk} B_{kb}))$
-- $Tcf = max(0, \tau_8(-w_f N_f - T_{cf} + \Pi_{cf} + \Pi_{kf} + r_g GB_f - i L_f + i_{bc} B_{cf} + i_{bk} B_{kf}))$
+- $T_{cb} = max(0, \tau_8(-w_b N_b - T_{cb} + \Pi_{cb} + \Pi_{kb} + r_g GB_b + i L + i_{bc} B_{cb} + i_{bk} B_{kb}))$
+- $T_{cf} = max(0, \tau_8(-w_f N_f - T_{cf} + \Pi_{cf} + \Pi_{kf} + r_g GB_f - i L_f + i_{bc} B_{cf} + i_{bk} B_{kf}))$
 
 ####  2.2.9. 投資家の所得税
 - $T_{ii} = \tau_5 (\Pi_{ci} + \Pi_{ki} + r_g GB_i + i_{bc} B_{ci} + i_{bk} B_{ki})$
+
+####  2.2.10. ポートフォリオ配分
+- $L_{w+1} = \kappa_1 YD_w^e$
+- マクロでもミクロでも、適応的な配分目標の更新をしたい。金融資産がだぶついたときの影響とか、金融不況や金融バブルの影響とか、扱おうとすると、たぶんGodelyの行列とベクトルのやつは、静的すぎて、債権の目標保有額と「そもそもそんな金額は存在しません」な問題を別で解決する必要が出てくる。あるいは、債権価格が株式並みに価格変動する合理的な理由が必要になる
 
 ###   2.3. 恒等式
 ####  2.3.1. TFMの列の恒等式(モデル計算に使うやつ)
 - $WS = -p C_{wf} + w N_w + SS - T_{iw} - T_{ew} - i L_w$
 - $IS = -p C_{if} - T_{ii} - T_{ei} + \Pi_{ci} + \Pi_{ki} + r_g GB_i + i_{bc} B_{ci} + i_{bk} B_{ki}$
 - $GS = -p C_g + p_k I_g - w_g N_g -SS + T_v + T_i + T_e + T_c - r_g GB$
+- $\Delta M_w = NL_w + \Delta L_w$
 
 ####  2.3.2. TFMの行の恒等式(モデル計算に使うやつ)
 
@@ -179,6 +189,8 @@ ABMのバージョンは、売り注文と買い注文の数量と値段の決�
 ####  2.3.4. BSMの行の恒等式(モデル計算に使うやつ)
 
 ####  2.3.5. ストックとフローの接続の恒等式(モデル計算に使うやつ)
+- $\Delta L_w = L_{w+1} - L_w$
+- $M_{w+1} = M_w + \Delta M_w$
 
 ####  2.3.6. 隠された恒等式
 
